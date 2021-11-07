@@ -1,33 +1,29 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import User from 'App/Models/User'
-import moment from 'moment'
+import { createUser, findUser, removeUser, updateUser } from 'App/Services/UserServices'
 
 export default class UsersController {
-  public async create({ request }: HttpContextContract) {
+  public async create({ auth, request }: HttpContextContract) {
     const { username } = request.all()
-
-    // nome aleatório
-    const fullname = username + moment().unix() // pega o valor moment em milissegundos
-
-    const user = new User()
-    await user.fill({ username, fullname }).save()
-
-    return user.$isPersisted ? user : { message: 'Usuário não criado!' }
+    const users = await findUser({ username })
+    let user
+    if (users.length) user = users[0]
+    else user = await createUser({ username })
+    const token = await auth.use('api').generate(user)
+    return token
   }
 
   public async show({ request }: HttpContextContract) {
     const search = request.all()
-
-    return await User.query().where(search).preload('accounts').preload('cred_cards')
+    return await findUser(search)
   }
 
   public async update({ request }: HttpContextContract) {
-    const { id, username, fullname, savings } = request.all()
+    return await updateUser(request.all())
+  }
 
-    const user = await User.findOrFail(id)
+  public async destroy({ request }: HttpContextContract) {
+    const users = await findUser(request.all())
 
-    await user.merge({ username, fullname, savings }).save()
-
-    return user.$isPersisted ? user : { message: 'Usuário não atualizado!' }
+    return users.length && (await removeUser(users[0].id))
   }
 }

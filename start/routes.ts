@@ -24,44 +24,57 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
+Route.post('/user/login', 'UsersController.create')
+
 Route.group(() => {
-  Route.post('/', 'UsersController.create')
   Route.get('/', 'UsersController.show')
   Route.put('/', 'UsersController.update')
-}).prefix('/user')
-// .middleware(['auth'])
+  Route.delete('/', 'UsersController.destroy')
+})
+  .prefix('/user')
+  .middleware('auth')
 
 Route.group(() => {
   Route.post('/', 'BankAccountsController.create')
   Route.get('/', 'BankAccountsController.show')
   Route.put('/', 'BankAccountsController.update')
   Route.delete('/:id', 'BankAccountsController.destroy')
-}).prefix('/account')
+})
+  .prefix('/account')
+  .middleware('auth')
 
 Route.group(() => {
   Route.post('/', 'CredCardsController.create')
   Route.get('/', 'CredCardsController.show')
   Route.put('/', 'CredCardsController.update')
   Route.delete('/:id', 'CredCardsController.destroy')
-}).prefix('/credCard')
+})
+  .prefix('/credCard')
+  .middleware('auth')
 
 Route.group(() => {
   Route.post('/', 'RentsController.create')
   Route.get('/', 'RentsController.show')
   Route.put('/', 'RentsController.update')
   Route.delete('/:id', 'RentsController.destroy')
-}).prefix('/rent')
+})
+  .prefix('/rent')
+  .middleware('auth')
 
 Route.group(() => {
   Route.post('/', 'ExpensesController.create')
   Route.get('/', 'ExpensesController.show')
   Route.put('/', 'ExpensesController.update')
   Route.delete('/:id', 'ExpensesController.destroy')
-}).prefix('/expense')
+})
+  .prefix('/expense')
+  .middleware('auth')
 
 Route.group(() => {
   Route.post('/', 'CategoriesController.create')
   Route.get('/', 'CategoriesController.show')
   Route.put('/', 'CategoriesController.update')
   Route.delete('/:id', 'CategoriesController.destroy')
-}).prefix('/category')
+})
+  .prefix('/category')
+  .middleware('auth')
