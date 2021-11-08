@@ -1,15 +1,21 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import User from 'App/Models/User'
 import { createUser, findUser, removeUser, updateUser } from 'App/Services/UserServices'
 
 export default class UsersController {
   public async create({ auth, request }: HttpContextContract) {
-    const { username } = request.all()
+    const { username, password = '123456' } = request.all()
     const users = await findUser({ username })
-    let user
+    let user: User
     if (users.length) user = users[0]
-    else user = await createUser({ username })
-    const token = await auth.use('api').generate(user)
-    return token
+    else user = await createUser({ username, password })
+
+    console.log(username, password)
+
+    const token = await auth.use('api').attempt(username, password, {
+      expiresIn: '10 days',
+    })
+    return { user, token }
   }
 
   public async show({ request }: HttpContextContract) {
