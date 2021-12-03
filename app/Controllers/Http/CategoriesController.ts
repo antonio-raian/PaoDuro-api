@@ -12,7 +12,7 @@ export default class CategoriesController {
     return category.$isPersisted ? category : { message: 'Categoria não criada!' }
   }
 
-  public async store({ request }: HttpContextContract) {}
+  public async store({}: HttpContextContract) {}
 
   public async show({ request }: HttpContextContract) {
     const search = request.all()
@@ -40,5 +40,5 @@ export default class CategoriesController {
     return category.$isPersisted ? category : { message: 'Categoria não desativada!' }
   }
 
-  public async destroy({ request }: HttpContextContract) {}
+  public async destroy({}: HttpContextContract) {}
 }

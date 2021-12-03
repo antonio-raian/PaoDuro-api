@@ -1,39 +1,30 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import BankAccount from 'App/Models/BankAccount'
+import {
+  createAccount,
+  findAccount,
+  removeAccount,
+  updateAccount,
+} from 'App/Services/BankAccountServices'
 
 export default class BankAccountsController {
   public async create({ request }: HttpContextContract) {
     const { name, color, balance, defaultAccount, userId } = request.all()
 
-    const account = new BankAccount()
-
-    await account.fill({ name, color, balance, defaultAccount, userId }).save()
-
-    return account.$isPersisted ? account : { message: 'Conta não criada!' }
+    return createAccount({ name, color, balance, defaultAccount, userId })
   }
+
   public async show({ request }: HttpContextContract) {
     const search = request.all()
-
-    return await BankAccount.query().where(search).preload('user')
+    return await findAccount(search)
   }
 
   public async update({ request }: HttpContextContract) {
-    const { id, name, color, balance, defaultAccount, userId } = request.all()
-
-    const account = await BankAccount.findOrFail(id)
-
-    await account.merge({ name, color, balance, defaultAccount, userId }).save()
-
-    return account.$isPersisted ? account : { message: 'Conta não atualizado!' }
+    return await updateAccount(request.all())
   }
 
   public async destroy({ request }: HttpContextContract) {
-    const { id } = request.all()
+    const users = await findAccount(request.all())
 
-    const account = await BankAccount.findOrFail(id)
-
-    await account.merge({ active: false }).save()
-
-    return account.$isPersisted ? account : { message: 'Conta não desativada!' }
+    return users.length && (await removeAccount(users[0].id))
   }
 }
