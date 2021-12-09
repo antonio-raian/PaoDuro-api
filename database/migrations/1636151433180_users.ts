@@ -8,6 +8,7 @@ export default class Users extends BaseSchema {
       table.bigIncrements('id')
       table.string('username').unique().notNullable()
       table.string('fullname')
+      table.string('photo')
       table.string('password')
       table.float('savings').defaultTo(0)
 

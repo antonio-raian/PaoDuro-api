@@ -4,11 +4,11 @@ import { createUser, findUser, removeUser, updateUser } from 'App/Services/UserS
 
 export default class UsersController {
   public async create({ auth, request }: HttpContextContract) {
-    const { username, password = '123456' } = request.all()
+    const { username, password, fullname, photo, savings } = request.all()
     const users = await findUser({ username })
     let user: User
     if (users.length) user = users[0]
-    else user = await createUser({ username, password })
+    else user = await createUser({ username, password, fullname, photo, savings })
 
     console.log(username, password)
 

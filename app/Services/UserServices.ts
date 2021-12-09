@@ -1,12 +1,8 @@
 import User from 'App/Models/User'
-import moment from 'moment'
 
-export const createUser = async ({ username, password }) => {
-  // nome aleatório
-  const fullname = username + moment().unix() // pega o valor moment em milissegundos
-
+export const createUser = async (newUser) => {
   const user = new User()
-  await user.fill({ username, fullname, password }).save()
+  await user.fill(newUser).save()
 
   return user
 }

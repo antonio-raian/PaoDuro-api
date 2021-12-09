@@ -20,14 +20,17 @@ export default class User extends BaseModel {
   @column()
   public username: string
 
-  @column({ serializeAs: null })
-  public password: string
+  @column()
+  public photo: string
 
   @column()
   public fullname: string
 
   @column()
   public savings: number
+
+  @column({ serializeAs: null })
+  public password: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
