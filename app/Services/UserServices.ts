@@ -12,11 +12,11 @@ export const findUser = async (search) => {
 }
 
 export const updateUser = async (newUser) => {
-  const { id, username, fullname, savings, password } = newUser
+  const { id, username, fullname, photo, savings, password } = newUser
 
   const user = await User.findOrFail(id)
 
-  await user.merge({ username, fullname, savings, password }).save()
+  await user.merge({ username, fullname, savings, password, photo }).save()
 
   return user.$isPersisted ? user : { message: 'Usuário não atualizado!' }
 }
