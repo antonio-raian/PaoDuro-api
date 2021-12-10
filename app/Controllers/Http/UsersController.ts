@@ -3,7 +3,7 @@ import User from 'App/Models/User'
 import { createUser, findUser, removeUser, updateUser } from 'App/Services/UserServices'
 
 export default class UsersController {
-  public async create({ auth, request }: HttpContextContract) {
+  public async createUser({ auth, request }: HttpContextContract) {
     const { username, password, fullname, photo, savings } = request.all()
     const users = await findUser({ username })
     let user: User

@@ -1,44 +1,33 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Category from 'App/Models/Category'
+import {
+  createCategory,
+  findCategory,
+  removeCategory,
+  updateCategory,
+} from 'App/Services/CategoryServices'
 
 export default class CategoriesController {
   public async create({ request }: HttpContextContract) {
     const { name, iconName } = request.all()
 
-    const category = new Category()
-
-    await category.fill({ name, iconName }).save()
-
-    return category.$isPersisted ? category : { message: 'Categoria não criada!' }
+    return createCategory({ name, iconName })
   }
-
-  public async store({}: HttpContextContract) {}
 
   public async show({ request }: HttpContextContract) {
     const search = request.all()
 
-    return await Category.query().where(search)
+    return findCategory(search)
   }
 
   public async update({ request }: HttpContextContract) {
     const { id, name, iconName } = request.all()
 
-    const category = await Category.findOrFail(id)
-
-    await category.merge({ name, iconName }).save()
-
-    return category.$isPersisted ? category : { message: 'Categoria não atualizado!' }
+    return updateCategory({ id, name, iconName })
   }
 
-  public async edit({ request }: HttpContextContract) {
-    const { id } = request.all()
+  public async destroy({ request }: HttpContextContract) {
+    const categories = await findCategory(request.all())
 
-    const category = await Category.findOrFail(id)
-
-    await category.merge({ active: false }).save()
-
-    return category.$isPersisted ? category : { message: 'Categoria não desativada!' }
+    return categories.length && (await removeCategory(categories[0].id))
   }
-
-  public async destroy({}: HttpContextContract) {}
 }

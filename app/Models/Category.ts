@@ -28,7 +28,7 @@ export default class Category extends BaseModel {
     relatedKey: 'id',
     pivotRelatedForeignKey: 'user_id',
   })
-  public categories: ManyToMany<typeof User>
+  public users: ManyToMany<typeof User>
 
   @hasMany(() => Expense)
   public accounts: HasMany<typeof Expense>
