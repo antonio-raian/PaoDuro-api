@@ -28,7 +28,9 @@ Route.post('/user/login', 'UsersController.create')
 
 Route.group(() => {
   Route.get('/', 'UsersController.show')
+  Route.get('/categories', 'UsersController.getCategories')
   Route.put('/', 'UsersController.update')
+  Route.put('/category', 'UsersController.addCategory')
   Route.delete('/', 'UsersController.destroy')
 })
   .prefix('/user')

@@ -1,9 +1,16 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
-import { createUser, findUser, removeUser, updateUser } from 'App/Services/UserServices'
+import {
+  addCategory,
+  createUser,
+  findCategories,
+  findUser,
+  removeUser,
+  updateUser,
+} from 'App/Services/UserServices'
 
 export default class UsersController {
-  public async createUser({ auth, request }: HttpContextContract) {
+  public async create({ auth, request }: HttpContextContract) {
     const { username, password, fullname, photo, savings } = request.all()
     const users = await findUser({ username })
     let user: User
@@ -21,6 +28,18 @@ export default class UsersController {
   public async show({ request }: HttpContextContract) {
     const search = request.all()
     return await findUser(search)
+  }
+
+  public async getCategories({ auth, request }: HttpContextContract) {
+    const searchUser = { id: auth.user?.id }
+    const searchCateg = request.all()
+    return await findCategories(searchUser, searchCateg)
+  }
+
+  public async addCategory({ auth, request }: HttpContextContract) {
+    const { categoryId } = request.all()
+
+    return addCategory(auth.user?.id, categoryId)
   }
 
   public async update({ request }: HttpContextContract) {

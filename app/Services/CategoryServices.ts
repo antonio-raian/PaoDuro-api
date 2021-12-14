@@ -8,7 +8,8 @@ export const createCategory = async (newCategory) => {
 }
 
 export const findCategory = async (search) => {
-  return await Category.query().where(search)
+  console.log('Find Categories', search)
+  return await Category.query().where(search).orderBy('id', 'asc')
 }
 
 export const updateCategory = async (newCategory) => {

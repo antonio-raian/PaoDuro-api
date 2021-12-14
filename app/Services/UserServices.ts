@@ -15,6 +15,20 @@ export const findUser = async (search) => {
     .preload('categories')
 }
 
+export const findCategories = async (searchUser, searchCategory) => {
+  const user = await User.query()
+    .where(searchUser)
+    .preload('categories', (q) => {
+      q.where(searchCategory).orderBy('id', 'asc')
+    })
+  return user[0].categories
+}
+
+export const addCategory = async (userId, categoryId) => {
+  const user = await User.findByOrFail('id', userId)
+  await user.related('categories').attach([categoryId])
+}
+
 export const updateUser = async (newUser) => {
   const { id, username, fullname, photo, savings, password } = newUser
 
