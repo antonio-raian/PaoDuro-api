@@ -1,5 +1,4 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import User from 'App/Models/User'
 import {
   addCategory,
   createUser,
@@ -10,19 +9,22 @@ import {
 } from 'App/Services/UserServices'
 
 export default class UsersController {
-  public async create({ auth, request }: HttpContextContract) {
-    const { username, password, fullname, photo, savings } = request.all()
-    const users = await findUser({ username })
-    let user: User
-    if (users.length) user = users[0]
-    else user = await createUser({ username, password, fullname, photo, savings })
-
-    console.log(username, password)
+  public async login({ auth, request }: HttpContextContract) {
+    const { username, password } = request.all()
 
     const token = await auth.use('api').attempt(username, password, {
       expiresIn: '10 days',
     })
-    return { user, token }
+    return { token }
+  }
+
+  public async create({ request }: HttpContextContract) {
+    const { username, password, fullname, photo, savings } = request.all()
+    const users = await findUser({ username })
+
+    if (users.length) return { statusCode: 203, message: 'Cliente existente' }
+
+    return await createUser({ username, password, fullname, photo, savings })
   }
 
   public async show({ request }: HttpContextContract) {

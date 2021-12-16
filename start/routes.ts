@@ -24,9 +24,10 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.post('/users/login', 'UsersController.create')
+Route.post('/users/login', 'UsersController.login')
 
 Route.group(() => {
+  Route.post('/', 'UsersController.create')
   Route.get('/', 'UsersController.show')
   Route.get('/categories', 'UsersController.getCategories')
   Route.put('/', 'UsersController.update')
