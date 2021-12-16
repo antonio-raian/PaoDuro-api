@@ -50,7 +50,7 @@ export default class User extends BaseModel {
   public accounts: HasMany<typeof BankAccount>
 
   @hasMany(() => CredCard)
-  public cred_cards: HasMany<typeof CredCard>
+  public credCards: HasMany<typeof CredCard>
 
   @manyToMany(() => Category, {
     pivotTable: 'user_categories',
