@@ -24,7 +24,7 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.post('/user/login', 'UsersController.create')
+Route.post('/users/login', 'UsersController.create')
 
 Route.group(() => {
   Route.get('/', 'UsersController.show')
@@ -33,7 +33,7 @@ Route.group(() => {
   Route.put('/category', 'UsersController.addCategory')
   Route.delete('/', 'UsersController.destroy')
 })
-  .prefix('/user')
+  .prefix('/users')
   .middleware('auth')
 
 Route.group(() => {
@@ -42,7 +42,7 @@ Route.group(() => {
   Route.put('/', 'BankAccountsController.update')
   Route.delete('/:id', 'BankAccountsController.destroy')
 })
-  .prefix('/account')
+  .prefix('/accounts')
   .middleware('auth')
 
 Route.group(() => {
@@ -51,7 +51,7 @@ Route.group(() => {
   Route.put('/', 'CredCardsController.update')
   Route.delete('/:id', 'CredCardsController.destroy')
 })
-  .prefix('/credCard')
+  .prefix('/credCards')
   .middleware('auth')
 
 Route.group(() => {
@@ -60,7 +60,7 @@ Route.group(() => {
   Route.put('/', 'RentsController.update')
   Route.delete('/:id', 'RentsController.destroy')
 })
-  .prefix('/rent')
+  .prefix('/rents')
   .middleware('auth')
 
 Route.group(() => {
@@ -69,7 +69,7 @@ Route.group(() => {
   Route.put('/', 'ExpensesController.update')
   Route.delete('/:id', 'ExpensesController.destroy')
 })
-  .prefix('/expense')
+  .prefix('/expenses')
   .middleware('auth')
 
 Route.group(() => {
@@ -78,5 +78,5 @@ Route.group(() => {
   Route.put('/', 'CategoriesController.update')
   Route.delete('/:id', 'CategoriesController.destroy')
 })
-  .prefix('/category')
+  .prefix('/categories')
   .middleware('auth')
