@@ -9,7 +9,7 @@ export default class Category extends BaseModel {
 
   @column()
   public name: string
-  @column()
+  @column({ serializeAs: 'iconName' })
   public iconName: string
   @column()
   public active: boolean

@@ -12,7 +12,7 @@ export default class Rent extends BaseModel {
   @column()
   public date: DateTime
 
-  @column()
+  @column({ serializeAs: 'bankAccountId' })
   public bankAccountId: number
 
   @column.dateTime({ autoCreate: true })

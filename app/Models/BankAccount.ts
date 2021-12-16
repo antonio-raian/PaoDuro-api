@@ -15,10 +15,10 @@ export default class BankAccount extends BaseModel {
   @column()
   public balance: number
 
-  @column()
+  @column({ serializeAs: 'defaultAccount' })
   public defaultAccount: boolean
 
-  @column()
+  @column({ serializeAs: 'userId' })
   public userId: number
 
   @column()

@@ -14,20 +14,19 @@ export default class Expense extends BaseModel {
   public value: string
   @column()
   public date: string
-  @column()
+  @column({ serializeAs: 'repeatExpense' })
   public repeatExpense: string
   @column()
   public paid: string
-  @column()
+  @column({ serializeAs: 'paidAt' })
   public paidAt: string
   @column()
   public active: string
-
-  @column()
+  @column({ serializeAs: 'bankAccountId' })
   public bankAccountId: string
-  @column()
+  @column({ serializeAs: 'credCardId' })
   public credCardId: string
-  @column()
+  @column({ serializeAs: 'categoryId' })
   public categoryId: string
 
   @column.dateTime({ autoCreate: true })

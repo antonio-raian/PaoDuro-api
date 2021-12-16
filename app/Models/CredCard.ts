@@ -12,19 +12,19 @@ export default class CredCard extends BaseModel {
   @column()
   public limit: number
 
-  @column()
+  @column({ serializeAs: 'dueDate' })
   public dueDate: string
 
   @column()
   public color: string
 
-  @column()
+  @column({ serializeAs: 'defaultCard' })
   public defaultCard: boolean
 
   @column()
   public active: boolean
 
-  @column()
+  @column({ serializeAs: 'userId' })
   public userId: number
 
   @column.dateTime({ autoCreate: true })
