@@ -31,5 +31,5 @@ export default class Category extends BaseModel {
   public users: ManyToMany<typeof User>
 
   @hasMany(() => Expense)
-  public accounts: HasMany<typeof Expense>
+  public expenses: HasMany<typeof Expense>
 }
