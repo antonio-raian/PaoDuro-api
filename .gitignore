@@ -9,3 +9,5 @@ tmp
 postgres/
 Dockerfile
 *.yml
+
+*.pdf
