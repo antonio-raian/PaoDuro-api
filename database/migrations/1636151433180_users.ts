@@ -11,6 +11,7 @@ export default class Users extends BaseSchema {
       table.string('photo')
       table.string('password')
       table.float('savings').defaultTo(0)
+      table.enu('level', [0, 1, 2, 3])
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })

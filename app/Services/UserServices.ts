@@ -29,12 +29,10 @@ export const addCategory = async (userId, categoryId) => {
   await user.related('categories').attach([categoryId])
 }
 
-export const updateUser = async (newUser) => {
-  const { id, username, fullname, photo, savings, password } = newUser
+export const updateUser = async (userId, newUser) => {
+  const user = await User.findOrFail(userId)
 
-  const user = await User.findOrFail(id)
-
-  await user.merge({ username, fullname, savings, password, photo }).save()
+  await user.merge(newUser).save()
 
   return user.$isPersisted ? user : { message: 'Usuário não atualizado!' }
 }

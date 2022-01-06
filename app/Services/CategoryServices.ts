@@ -12,12 +12,10 @@ export const findCategory = async (search) => {
   return await Category.query().where(search).orderBy('id', 'asc')
 }
 
-export const updateCategory = async (newCategory) => {
-  const { id, name, iconName } = newCategory
+export const updateCategory = async (categoryId, newCategory) => {
+  const category = await Category.findOrFail(categoryId)
 
-  const category = await Category.findOrFail(id)
-
-  await category.merge({ name, iconName }).save()
+  await category.merge(newCategory).save()
 
   return category.$isPersisted ? category : { message: 'Categoria não atualizada!' }
 }

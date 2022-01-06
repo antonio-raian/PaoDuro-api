@@ -1,12 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import {
-  addCategory,
-  createUser,
-  findCategories,
-  findUser,
-  removeUser,
-  updateUser,
-} from 'App/Services/UserServices'
+import { createUser, findUser, removeUser, updateUser } from 'App/Services/UserServices'
 
 export default class UsersController {
   public async login({ auth, request }: HttpContextContract) {
@@ -18,38 +11,32 @@ export default class UsersController {
     return { token }
   }
 
-  public async create({ request }: HttpContextContract) {
-    const { username, password, fullname, photo, savings } = request.all()
+  public async create({ auth, request, response }: HttpContextContract) {
+    const { username, password, fullname, photo, savings, level } = request.all()
     const users = await findUser({ username })
 
-    if (users.length) return { statusCode: 203, message: 'Cliente existente' }
+    if (auth.user?.level !== '0') {
+      return response
+        .status(401)
+        .send({ message: 'Você não possui permissão para executar essa ação!' })
+    }
+    if (users.length) return response.status(203).send({ message: 'Cliente existente' })
 
-    return await createUser({ username, password, fullname, photo, savings })
+    return await createUser({ username, password, fullname, photo, savings, level: level || 1 })
   }
 
-  public async show({ request }: HttpContextContract) {
+  public async show({ auth, request }: HttpContextContract) {
     const search = request.all()
     return await findUser(search)
   }
 
-  public async getCategories({ auth, request }: HttpContextContract) {
-    const searchUser = { id: auth.user?.id }
-    const searchCateg = request.all()
-    return await findCategories(searchUser, searchCateg)
+  public async update({ auth, params, request }: HttpContextContract) {
+    console.log(params, request.all())
+    return await updateUser(params.id || auth.user?.id, request.all())
   }
 
-  public async addCategory({ auth, request }: HttpContextContract) {
-    const { categoryId } = request.all()
-
-    return addCategory(auth.user?.id, categoryId)
-  }
-
-  public async update({ request }: HttpContextContract) {
-    return await updateUser(request.all())
-  }
-
-  public async destroy({ request }: HttpContextContract) {
-    const users = await findUser(request.all())
+  public async destroy({ params }: HttpContextContract) {
+    const users = await findUser({ id: params.id })
 
     return users.length && (await removeUser(users[0].id))
   }

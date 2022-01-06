@@ -6,6 +6,7 @@ export default class UserSeeder extends BaseSeeder {
     await User.create({
       username: 'develop',
       password: '@ntoniO180895',
+      level: '0',
     })
   }
 }
