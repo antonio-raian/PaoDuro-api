@@ -6,7 +6,7 @@ export default class CategorySeeder extends BaseSeeder {
     await Category.createMany([
       {
         name: 'Alimentação',
-        iconName: 'food',
+        iconName: 'fast-food',
       },
       {
         name: 'Mercado',

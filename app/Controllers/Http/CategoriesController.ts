@@ -8,9 +8,13 @@ import {
 import { addCategory, findCategories } from 'App/Services/UserServices'
 
 export default class CategoriesController {
-  public async create({ request }: HttpContextContract) {
+  public async create({ auth, request, response }: HttpContextContract) {
     const { name, iconName } = request.all()
-
+    if (auth.user?.level !== '0') {
+      return response
+        .status(401)
+        .send({ message: 'Você não possui permissão para executar essa ação!' })
+    }
     return createCategory({ name, iconName })
   }
 
@@ -20,11 +24,21 @@ export default class CategoriesController {
     return findCategory(search)
   }
 
-  public async update({ params, request }: HttpContextContract) {
+  public async update({ auth, params, request, response }: HttpContextContract) {
+    if (auth.user?.level !== '0') {
+      return response
+        .status(401)
+        .send({ message: 'Você não possui permissão para executar essa ação!' })
+    }
     return updateCategory(params.id, request.all())
   }
 
-  public async destroy({ params }: HttpContextContract) {
+  public async destroy({ auth, params, response }: HttpContextContract) {
+    if (auth.user?.level !== '0') {
+      return response
+        .status(401)
+        .send({ message: 'Você não possui permissão para executar essa ação!' })
+    }
     const categories = await findCategory({ id: params.id })
 
     return categories.length && (await removeCategory(categories[0].id))
