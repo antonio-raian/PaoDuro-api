@@ -66,6 +66,7 @@ Route.group(() => {
 
 Route.group(() => {
   Route.post('/', 'CredCardsController.create')
+  Route.post('/:id', 'CredCardsController.create')
   Route.get('/', 'CredCardsController.show')
   Route.put('/:id', 'CredCardsController.update')
   Route.delete('/:id', 'CredCardsController.destroy')
