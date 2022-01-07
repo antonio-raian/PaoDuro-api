@@ -1,41 +1,35 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import CredCard from 'App/Models/CredCard'
+import {
+  createCredCard,
+  findCredCard,
+  removeCredCard,
+  updateCredCard,
+} from 'App/Services/CredCardsServices'
 
 export default class CredCardsController {
   public async create({ params, auth, request }: HttpContextContract) {
     const { name, color, limit, defaultCard, dueDate } = request.all()
 
-    const credCard = new CredCard()
-
-    await credCard
-      .fill({ name, color, limit, defaultCard, dueDate, userId: params.id || auth.user?.id })
-      .save()
-
-    return credCard.$isPersisted ? credCard : { message: 'Cartão não criada!' }
+    return createCredCard({
+      name,
+      color,
+      limit,
+      defaultCard,
+      dueDate,
+      userId: params.id || auth.user?.id,
+    })
   }
   public async show({ request }: HttpContextContract) {
     const search = request.all()
 
-    return await CredCard.query().where(search).preload('user')
+    return findCredCard(search)
   }
 
-  public async update({ request }: HttpContextContract) {
-    const { id, name, color, limit, defaultCard, dueDate, userId } = request.all()
-
-    const credCard = await CredCard.findOrFail(id)
-
-    await credCard.merge({ name, color, limit, defaultCard, dueDate, userId }).save()
-
-    return credCard.$isPersisted ? credCard : { message: 'Cartão não atualizado!' }
+  public async update({ params, request }: HttpContextContract) {
+    return await updateCredCard(params.id, request.all())
   }
 
   public async destroy({ params }: HttpContextContract) {
-    const { id } = params
-
-    const credCard = await CredCard.findOrFail(id)
-
-    await credCard.merge({ active: false }).save()
-
-    return credCard.$isPersisted ? credCard : { message: 'Cartão não desativada!' }
+    return await removeCredCard(params.id)
   }
 }
