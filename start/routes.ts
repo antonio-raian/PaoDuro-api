@@ -55,6 +55,9 @@ Route.group(() => {
   .middleware('auth')
 
 Route.group(() => {
+  Route.post('/', 'BankAccountsController.create')
+  Route.post('/:id', 'BankAccountsController.create')
+  Route.get('/', 'BankAccountsController.show')
   Route.put('/:id', 'BankAccountsController.update')
   Route.delete('/:id', 'BankAccountsController.destroy')
 })

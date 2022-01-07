@@ -9,13 +9,14 @@ export const createAccount = async ({ name, color, balance, defaultAccount, user
 }
 
 export const findAccount = async (search) => {
+  console.log({ search })
   return await BankAccount.query().where(search).preload('user')
 }
 
-export const updateAccount = async (newAccount) => {
-  const { id, name, color, balance, defaultAccount } = newAccount
+export const updateAccount = async (accountId, newAccount) => {
+  const { name, color, balance, defaultAccount } = newAccount
 
-  const account = await BankAccount.findOrFail(id)
+  const account = await BankAccount.findOrFail(accountId)
 
   await account.merge({ name, color, balance, defaultAccount }).save()
 

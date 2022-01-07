@@ -6,7 +6,7 @@ export default class UsersController {
     const { username, password } = request.all()
 
     const token = await auth.use('api').attempt(username, password, {
-      expiresIn: '10 days',
+      expiresIn: '1 days',
     })
     return { token }
   }

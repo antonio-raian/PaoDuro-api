@@ -7,10 +7,16 @@ import {
 } from 'App/Services/BankAccountServices'
 
 export default class BankAccountsController {
-  public async create({ request }: HttpContextContract) {
-    const { name, color, balance, defaultAccount, userId } = request.all()
+  public async create({ params, auth, request }: HttpContextContract) {
+    const { name, color, balance, defaultAccount } = request.all()
 
-    return createAccount({ name, color, balance, defaultAccount, userId })
+    return createAccount({
+      name,
+      color,
+      balance,
+      defaultAccount,
+      userId: params.id || auth.user?.id,
+    })
   }
 
   public async show({ request }: HttpContextContract) {
@@ -18,8 +24,8 @@ export default class BankAccountsController {
     return await findAccount(search)
   }
 
-  public async update({ request }: HttpContextContract) {
-    return await updateAccount(request.all())
+  public async update({ params, request }: HttpContextContract) {
+    return await updateAccount(params.id, request.all())
   }
 
   public async destroy({ request }: HttpContextContract) {
