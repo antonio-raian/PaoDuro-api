@@ -14,14 +14,13 @@ export default class Expense extends BaseModel {
   public value: string
   @column()
   public date: string
-  @column({ serializeAs: 'repeatExpense' })
-  public repeatExpense: string
   @column()
-  public paid: string
+  public status: string
   @column({ serializeAs: 'paidAt' })
   public paidAt: string
   @column()
   public active: string
+
   @column({ serializeAs: 'bankAccountId' })
   public bankAccountId: string
   @column({ serializeAs: 'credCardId' })

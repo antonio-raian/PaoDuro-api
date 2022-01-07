@@ -85,7 +85,6 @@ Route.group(() => {
 Route.group(() => {
   Route.post('/', 'ExpensesController.create')
   Route.get('/', 'ExpensesController.show')
-  Route.put('/:id', 'ExpensesController.update')
   Route.delete('/:id', 'ExpensesController.destroy')
 })
   .prefix('/expenses')
