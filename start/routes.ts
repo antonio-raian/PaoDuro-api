@@ -77,7 +77,6 @@ Route.group(() => {
 Route.group(() => {
   Route.post('/', 'RentsController.create')
   Route.get('/', 'RentsController.show')
-  Route.put('/:id', 'RentsController.update')
   Route.delete('/:id', 'RentsController.destroy')
 })
   .prefix('/rents')

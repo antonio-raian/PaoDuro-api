@@ -10,7 +10,7 @@ export default class CredCardsController {
   public async create({ params, auth, request }: HttpContextContract) {
     const { name, color, limit, defaultCard, dueDate } = request.all()
 
-    return createCredCard({
+    return await createCredCard({
       name,
       color,
       limit,
@@ -22,7 +22,7 @@ export default class CredCardsController {
   public async show({ request }: HttpContextContract) {
     const search = request.all()
 
-    return findCredCard(search)
+    return await findCredCard(search)
   }
 
   public async update({ params, request }: HttpContextContract) {

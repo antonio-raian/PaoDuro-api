@@ -25,5 +25,5 @@ export const removeCredCard = async (id) => {
 
   await account.delete()
 
-  return account.$isDeleted ? account : { message: 'Conta Bancária não desativada!' }
+  return account.$isDeleted ? account : { message: 'Cartão não desativado!' }
 }

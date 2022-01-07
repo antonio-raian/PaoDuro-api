@@ -10,7 +10,7 @@ export default class BankAccountsController {
   public async create({ params, auth, request }: HttpContextContract) {
     const { name, color, balance, defaultAccount } = request.all()
 
-    return createAccount({
+    return await createAccount({
       name,
       color,
       balance,

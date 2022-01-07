@@ -15,13 +15,13 @@ export default class CategoriesController {
         .status(401)
         .send({ message: 'Você não possui permissão para executar essa ação!' })
     }
-    return createCategory({ name, iconName })
+    return await createCategory({ name, iconName })
   }
 
   public async show({ request }: HttpContextContract) {
     const search = request.all()
 
-    return findCategory(search)
+    return await findCategory(search)
   }
 
   public async update({ auth, params, request, response }: HttpContextContract) {
@@ -30,7 +30,7 @@ export default class CategoriesController {
         .status(401)
         .send({ message: 'Você não possui permissão para executar essa ação!' })
     }
-    return updateCategory(params.id, request.all())
+    return await updateCategory(params.id, request.all())
   }
 
   public async destroy({ auth, params, response }: HttpContextContract) {
@@ -53,6 +53,6 @@ export default class CategoriesController {
   public async addToUser({ auth, params, request }: HttpContextContract) {
     const { categoryId } = request.all()
 
-    return addCategory(params.id || auth.user?.id, categoryId)
+    return await addCategory(params.id || auth.user?.id, categoryId)
   }
 }
