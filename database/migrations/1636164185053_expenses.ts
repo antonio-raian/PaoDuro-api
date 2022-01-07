@@ -10,8 +10,7 @@ export default class Expenses extends BaseSchema {
       table.string('name').notNullable()
       table.float('value').notNullable()
       table.date('date').notNullable()
-      table.boolean('repeat_expense').defaultTo(false)
-      table.boolean('paid').defaultTo(false)
+      table.enum('status', ['pending', 'late', 'recorrent', 'paid']).defaultTo('pending')
       table.date('paid_at')
       table.boolean('active').defaultTo(true)
 
