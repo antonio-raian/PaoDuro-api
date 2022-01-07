@@ -14,7 +14,6 @@ export default class BankAccounts extends BaseSchema {
       table.boolean('active').defaultTo(true)
 
       table.bigInteger('user_id').references('users.id').notNullable().onDelete('cascade')
-      table.unique(['user_id', 'name'])
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })

@@ -36,11 +36,7 @@ export default class ExpensesController {
   public async show({ request }: HttpContextContract) {
     const search = request.all()
 
-    return await Expense.query()
-      .where(search)
-      .preload('account')
-      .preload('category')
-      .preload('credCard')
+    return await Expense.query().where(search)
   }
 
   public async update({ request }: HttpContextContract) {
