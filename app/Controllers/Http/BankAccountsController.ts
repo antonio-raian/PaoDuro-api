@@ -28,9 +28,7 @@ export default class BankAccountsController {
     return await updateAccount(params.id, request.all())
   }
 
-  public async destroy({ request }: HttpContextContract) {
-    const users = await findAccount(request.all())
-
-    return users.length && (await removeAccount(users[0].id))
+  public async destroy({ params }: HttpContextContract) {
+    return await removeAccount(params.id)
   }
 }

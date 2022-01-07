@@ -39,9 +39,8 @@ export default class CategoriesController {
         .status(401)
         .send({ message: 'Você não possui permissão para executar essa ação!' })
     }
-    const categories = await findCategory({ id: params.id })
 
-    return categories.length && (await removeCategory(categories[0].id))
+    return await removeCategory(params.id)
   }
 
   public async byUser({ auth, params, request }: HttpContextContract) {

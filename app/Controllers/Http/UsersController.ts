@@ -36,8 +36,6 @@ export default class UsersController {
   }
 
   public async destroy({ params }: HttpContextContract) {
-    const users = await findUser({ id: params.id })
-
-    return users.length && (await removeUser(users[0].id))
+    return await removeUser(params.id)
   }
 }
