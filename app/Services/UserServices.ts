@@ -26,7 +26,12 @@ export const findCategories = async (searchUser, searchCategory) => {
 
 export const addCategory = async (userId, categoryId) => {
   const user = await User.findByOrFail('id', userId)
-  await user.related('categories').attach([categoryId])
+  return await user.related('categories').attach([categoryId])
+}
+
+export const rmCategory = async (userId, categoryId) => {
+  const user = await User.findOrFail(userId)
+  return await user.related('categories').detach([categoryId])
 }
 
 export const updateUser = async (userId, newUser) => {

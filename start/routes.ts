@@ -39,8 +39,10 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/', 'CategoriesController.byUser')
   Route.get('/:id', 'CategoriesController.byUser')
-  Route.put('/', 'CategoriesController.addToUser')
-  Route.put('/:id', 'CategoriesController.addToUser')
+  Route.put('/add', 'CategoriesController.addToUser')
+  Route.put('/add/:id', 'CategoriesController.addToUser')
+  Route.put('/remove', 'CategoriesController.removeToUser')
+  Route.put('/remove/:id', 'CategoriesController.removeToUser')
 })
   .prefix('/users-categories')
   .middleware('auth')

@@ -5,7 +5,7 @@ import {
   removeCategory,
   updateCategory,
 } from 'App/Services/CategoryServices'
-import { addCategory, findCategories } from 'App/Services/UserServices'
+import { addCategory, findCategories, rmCategory } from 'App/Services/UserServices'
 
 export default class CategoriesController {
   public async create({ auth, request, response }: HttpContextContract) {
@@ -54,5 +54,11 @@ export default class CategoriesController {
     const { categoryId } = request.all()
 
     return await addCategory(params.id || auth.user?.id, categoryId)
+  }
+
+  public async removeToUser({ auth, params, request }: HttpContextContract) {
+    const { categoryId } = request.all()
+
+    return await rmCategory(params.id || auth.user?.id, categoryId)
   }
 }

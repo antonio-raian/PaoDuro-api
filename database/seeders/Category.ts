@@ -26,7 +26,7 @@ export default class CategorySeeder extends BaseSeeder {
       },
       {
         name: 'Outros',
-        iconName: 'color-filter-outlined',
+        iconName: 'color-filter-outline',
       },
     ])
   }
