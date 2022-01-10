@@ -9,6 +9,7 @@ export default class CredCards extends BaseSchema {
 
       table.string('name').notNullable()
       table.float('limit').defaultTo(0)
+      table.float('balance').defaultTo(0)
       table.string('due_date').notNullable()
       table.string('color').defaultTo('gray')
       table.boolean('default_card').defaultTo(false)

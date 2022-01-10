@@ -12,6 +12,9 @@ export default class CredCard extends BaseModel {
   @column()
   public limit: number
 
+  @column()
+  public balance: number
+
   @column({ serializeAs: 'dueDate' })
   public dueDate: string
 

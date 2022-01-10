@@ -31,7 +31,6 @@ export default class UsersController {
   }
 
   public async update({ auth, params, request }: HttpContextContract) {
-    console.log(params, request.all())
     return await updateUser(params.id || auth.user?.id, request.all())
   }
 

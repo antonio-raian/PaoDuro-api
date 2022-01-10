@@ -35,7 +35,7 @@ export const createExpenses = async ({
   }
   if (credCardId) {
     const cred = await CredCard.findOrFail(credCardId)
-    await updateAccount(bankAccountId, { balance: cred.limit - value })
+    await updateAccount(bankAccountId, { balance: cred.balance - value })
   }
 
   return expense.$isPersisted ? expense : { message: 'Despesa não criada!' }
@@ -67,7 +67,7 @@ export const removeExpenses = async (id) => {
   }
   if (expense.credCardId) {
     const cred = await CredCard.findOrFail(expense.credCardId)
-    await updateAccount(expense.credCardId, { balance: cred.limit + expense.value })
+    await updateAccount(expense.credCardId, { balance: cred.balance + expense.value })
   }
 
   await expense.delete()

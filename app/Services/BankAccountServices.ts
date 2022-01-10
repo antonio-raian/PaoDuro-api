@@ -9,7 +9,6 @@ export const createAccount = async ({ name, color, balance, defaultAccount, user
 }
 
 export const findAccount = async (search) => {
-  console.log({ search })
   return await BankAccount.query().where(search).preload('user')
 }
 
