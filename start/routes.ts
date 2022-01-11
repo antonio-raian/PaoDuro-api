@@ -91,3 +91,13 @@ Route.group(() => {
 })
   .prefix('/expenses')
   .middleware('auth')
+
+Route.group(() => {
+  Route.post('/', 'SavingsController.create')
+  Route.post('/:id', 'SavingsController.create')
+  Route.put('/:id', 'SavingsController.update')
+  Route.get('/', 'SavingsController.show')
+  Route.delete('/:id', 'SavingsController.destroy')
+})
+  .prefix('/savings')
+  .middleware('auth')
