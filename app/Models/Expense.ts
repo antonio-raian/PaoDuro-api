@@ -18,8 +18,6 @@ export default class Expense extends BaseModel {
   public status: string
   @column({ serializeAs: 'paidAt' })
   public paidAt: string
-  @column()
-  public active: string
 
   @column({ serializeAs: 'bankAccountId' })
   public bankAccountId: string

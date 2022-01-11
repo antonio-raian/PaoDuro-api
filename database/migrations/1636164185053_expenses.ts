@@ -12,7 +12,6 @@ export default class Expenses extends BaseSchema {
       table.date('date').notNullable()
       table.enum('status', ['pending', 'late', 'recorrent', 'paid']).defaultTo('pending')
       table.date('paid_at')
-      table.boolean('active').defaultTo(true)
 
       table.bigInteger('bank_account_id').references('bank_accounts.id').onDelete('cascade')
       table.bigInteger('cred_card_id').references('cred_cards.id').onDelete('cascade')
