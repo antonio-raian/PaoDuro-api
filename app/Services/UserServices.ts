@@ -8,11 +8,7 @@ export const createUser = async (newUser) => {
 }
 
 export const findUser = async (search) => {
-  return await User.query()
-    .where(search)
-    .preload('accounts')
-    .preload('credCards')
-    .preload('categories')
+  return await User.query().where(search)
 }
 
 export const findCategories = async (searchUser, searchCategory) => {

@@ -5,10 +5,12 @@ export default class UsersController {
   public async login({ auth, request }: HttpContextContract) {
     const { username, password } = request.all()
 
+    const user = (await findUser({ username }))[0]
+    console.log({ user })
     const token = await auth.use('api').attempt(username, password, {
       expiresIn: '1 days',
     })
-    return { token }
+    return { token, user }
   }
 
   public async create({ auth, request, response }: HttpContextContract) {
@@ -25,7 +27,7 @@ export default class UsersController {
     return await createUser({ username, password, fullname, photo, savings, level: level || 1 })
   }
 
-  public async show({ auth, request }: HttpContextContract) {
+  public async show({ request }: HttpContextContract) {
     const search = request.all()
     return await findUser(search)
   }
