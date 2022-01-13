@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.0.0",
+    "@types/date-fns": "^2.6.0",
     "adonis-preset-ts": "^2.1.0",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.3.0",
@@ -29,6 +30,7 @@
     "@adonisjs/repl": "^3.1.0",
     "@types/moment": "^2.13.0",
     "adonis5-scheduler": "^2.0.2",
+    "date-fns": "^2.28.0",
     "luxon": "^2.0.2",
     "moment": "^2.29.1",
     "pg": "^8.7.1",

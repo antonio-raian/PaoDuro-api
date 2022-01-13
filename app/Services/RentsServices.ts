@@ -1,5 +1,6 @@
 import BankAccount from 'App/Models/BankAccount'
 import Rents from 'App/Models/Rent'
+import { sub } from 'date-fns'
 import { updateAccount } from './BankAccountServices'
 
 export const createRents = async ({ name, value, date, bankAccountId }) => {
@@ -15,7 +16,21 @@ export const createRents = async ({ name, value, date, bankAccountId }) => {
 }
 
 export const findRents = async (search) => {
-  return await Rents.query().where(search).preload('bankAccount')
+  let final = new Date()
+  let initial = sub(final, { days: final.getDate() - 1 })
+
+  if (search.initialDate) {
+    initial = new Date(search.initialDate)
+    delete search.initialDate
+  }
+  if (search.finalDate) {
+    final = new Date(search.finalDate)
+    delete search.finalDate
+  }
+
+  return await Rents.query().where((q) => {
+    q.where(search).andWhereBetween('date', [initial, final])
+  })
 }
 
 export const updateRents = async (rentId, newRents) => {

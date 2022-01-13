@@ -1,6 +1,7 @@
 import BankAccount from 'App/Models/BankAccount'
 import CredCard from 'App/Models/CredCard'
 import Expenses from 'App/Models/Expense'
+import { sub } from 'date-fns'
 import { updateAccount } from './BankAccountServices'
 
 export const createExpenses = async ({
@@ -42,11 +43,21 @@ export const createExpenses = async ({
 }
 
 export const findExpenses = async (search) => {
-  return await Expenses.query()
-    .where(search)
-    .preload('account')
-    .preload('category')
-    .preload('credCard')
+  let final = new Date()
+  let initial = sub(final, { days: final.getDate() - 1 })
+
+  if (search.initialDate) {
+    initial = new Date(search.initialDate)
+    delete search.initialDate
+  }
+  if (search.finalDate) {
+    final = new Date(search.finalDate)
+    delete search.finalDate
+  }
+
+  return await Expenses.query().where((q) => {
+    q.where(search).andWhereBetween('date', [initial, final])
+  })
 }
 
 export const updateExpenses = async (rentId, newExpenses) => {

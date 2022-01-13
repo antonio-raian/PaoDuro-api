@@ -1,6 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Expense from 'App/Models/Expense'
-import { createExpenses, removeExpenses, updateExpenses } from 'App/Services/ExpensesServices'
+import {
+  createExpenses,
+  findExpenses,
+  removeExpenses,
+  updateExpenses,
+} from 'App/Services/ExpensesServices'
 
 export default class ExpensesController {
   public async create({ request }: HttpContextContract) {
@@ -22,11 +26,7 @@ export default class ExpensesController {
   public async show({ request }: HttpContextContract) {
     const search = request.all()
 
-    return await Expense.query()
-      .where(search)
-      .preload('account')
-      .preload('category')
-      .preload('credCard')
+    return await findExpenses(search)
   }
 
   public async update({ params, request }: HttpContextContract) {
