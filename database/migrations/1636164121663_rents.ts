@@ -11,6 +11,7 @@ export default class Rents extends BaseSchema {
       table.float('value').notNullable()
       table.date('date').notNullable()
 
+      table.bigInteger('user_id').references('users.id').onDelete('cascade')
       table
         .bigInteger('bank_account_id')
         .references('bank_accounts.id')

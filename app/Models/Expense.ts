@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 import BankAccount from './BankAccount'
 import Category from './Category'
 import CredCard from './CredCard'
+import User from './User'
 
 export default class Expense extends BaseModel {
   @column({ isPrimary: true })
@@ -19,6 +20,8 @@ export default class Expense extends BaseModel {
   @column({ serializeAs: 'paidAt' })
   public paidAt: string
 
+  @column({ serializeAs: 'userId' })
+  public userId: number
   @column({ serializeAs: 'bankAccountId' })
   public bankAccountId: string
   @column({ serializeAs: 'credCardId' })
@@ -33,6 +36,9 @@ export default class Expense extends BaseModel {
   public updatedAt: DateTime
 
   // Relationships
+  @belongsTo(() => User)
+  public user: BelongsTo<typeof User>
+
   @belongsTo(() => BankAccount)
   public account: BelongsTo<typeof BankAccount>
 
