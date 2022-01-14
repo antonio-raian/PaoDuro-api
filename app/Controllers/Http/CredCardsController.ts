@@ -8,12 +8,13 @@ import {
 
 export default class CredCardsController {
   public async create({ params, auth, request }: HttpContextContract) {
-    const { name, color, limit, defaultCard, dueDate } = request.all()
+    const { name, color, limit, balance, defaultCard, dueDate } = request.all()
 
     return await createCredCard({
       name,
       color,
       limit,
+      balance,
       defaultCard,
       dueDate,
       userId: params.id || auth.user?.id,

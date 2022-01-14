@@ -6,7 +6,6 @@ export default class UsersController {
     const { username, password } = request.all()
 
     const user = (await findUser({ username }))[0]
-    console.log({ user })
     const token = await auth.use('api').attempt(username, password, {
       expiresIn: '1 days',
     })

@@ -1,9 +1,17 @@
 import CredCard from 'App/Models/CredCard'
 
-export const createCredCard = async ({ name, color, limit, defaultCard, dueDate, userId }) => {
+export const createCredCard = async ({
+  name,
+  color,
+  limit,
+  balance,
+  defaultCard,
+  dueDate,
+  userId,
+}) => {
   const credCard = new CredCard()
 
-  await credCard.fill({ name, color, limit, defaultCard, dueDate, userId }).save()
+  await credCard.fill({ name, color, limit, balance, defaultCard, dueDate, userId }).save()
 
   return credCard.$isPersisted ? credCard : { message: 'Cartão não criada!' }
 }
