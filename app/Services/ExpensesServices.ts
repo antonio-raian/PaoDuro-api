@@ -3,6 +3,7 @@ import CredCard from 'App/Models/CredCard'
 import Expenses from 'App/Models/Expense'
 import { sub } from 'date-fns'
 import { updateAccount } from './BankAccountServices'
+import { updateCredCard } from './CredCardsServices'
 
 export const createExpenses = async ({
   name,
@@ -16,6 +17,20 @@ export const createExpenses = async ({
 }) => {
   const expense = new Expenses()
 
+  let userId
+  // Atualiza o montante da conta
+  if (bankAccountId) {
+    const account = await BankAccount.findOrFail(bankAccountId)
+    await updateAccount(bankAccountId, { balance: account.balance - value })
+    userId = account.userId
+  } else if (credCardId) {
+    const cred = await CredCard.findOrFail(credCardId)
+    await updateCredCard(credCardId, { balance: cred.balance - value })
+    userId = cred.userId
+  } else {
+    throw { message: 'É preciso informar a fonte da renda para essa despesa!' }
+  }
+
   await expense
     .fill({
       name,
@@ -23,28 +38,20 @@ export const createExpenses = async ({
       date,
       status,
       paidAt,
+      userId,
       bankAccountId,
       credCardId,
       categoryId,
     })
     .save()
 
-  // Atualiza o montante da conta
-  if (bankAccountId) {
-    const account = await BankAccount.findOrFail(bankAccountId)
-    await updateAccount(bankAccountId, { balance: account.balance - value })
-  }
-  if (credCardId) {
-    const cred = await CredCard.findOrFail(credCardId)
-    await updateAccount(bankAccountId, { balance: cred.balance - value })
-  }
-
   return expense.$isPersisted ? expense : { message: 'Despesa não criada!' }
 }
 
 export const findExpenses = async (search) => {
-  let final = new Date()
-  let initial = sub(final, { days: final.getDate() - 1 })
+  const today = new Date()
+  let initial = sub(today, { days: today.getDate() - 1 })
+  let final = new Date(today.getFullYear(), today.getMonth() + 1, 1)
 
   if (search.initialDate) {
     initial = new Date(search.initialDate)
@@ -55,9 +62,12 @@ export const findExpenses = async (search) => {
     delete search.finalDate
   }
 
-  return await Expenses.query().where((q) => {
-    q.where(search).andWhereBetween('date', [initial, final])
-  })
+  return await Expenses.query()
+    .where((q) => {
+      q.where(search).andWhereBetween('date', [initial, final])
+    })
+    .preload('category')
+    .orderBy('date', 'desc')
 }
 
 export const updateExpenses = async (rentId, newExpenses) => {

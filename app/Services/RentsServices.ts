@@ -6,18 +6,20 @@ import { updateAccount } from './BankAccountServices'
 export const createRents = async ({ name, value, date, bankAccountId }) => {
   const rent = new Rents()
 
-  await rent.fill({ name, value, date, bankAccountId }).save()
-
   // Atualiza o montante da conta
   const account = await BankAccount.findOrFail(bankAccountId)
   await updateAccount(bankAccountId, { balance: account.balance + value })
+  const userId = account.userId
+
+  await rent.fill({ name, value, date, userId, bankAccountId }).save()
 
   return rent.$isPersisted ? rent : { message: 'Receita não criada!' }
 }
 
 export const findRents = async (search) => {
-  let final = new Date()
-  let initial = sub(final, { days: final.getDate() - 1 })
+  const today = new Date()
+  let initial = sub(today, { days: today.getDate() - 1 })
+  let final = new Date(today.getFullYear(), today.getMonth() + 1, 1)
 
   if (search.initialDate) {
     initial = new Date(search.initialDate)
@@ -28,9 +30,12 @@ export const findRents = async (search) => {
     delete search.finalDate
   }
 
-  return await Rents.query().where((q) => {
-    q.where(search).andWhereBetween('date', [initial, final])
-  })
+  return await Rents.query()
+    .where((q) => {
+      q.where(search).andWhereBetween('date', [initial, final])
+    })
+    .preload('bankAccount')
+    .orderBy('date', 'desc')
 }
 
 export const updateRents = async (rentId, newRents) => {
